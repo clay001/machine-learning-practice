@@ -1,0 +1,228 @@
+\documentclass[11pt, nocap, fleqn,a4paper,twoside]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[colorlinks,linkcolor=red]{hyperref}
+\usepackage{url}
+%\usepackage[colorlinks,linkcolor=blue]{hyperref}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{subfloat}
+\newtheorem{prop}{Proposition}
+\usepackage{ulem}
+\usepackage{indentfirst}
+\usepackage{enumerate}
+\usepackage{mathdots}
+\usepackage{bm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{float}
+\usepackage{subfigure}
+
+
+\setlength{\textwidth}{6.3in}%%
+\setlength{\textheight}{9.8in}%%
+\setlength{\topmargin}{0pt}%%
+\setlength{\headsep}{-0.5in}%%
+\setlength{\headheight}{0pt}%%
+\setlength{\oddsidemargin}{0pt}%%
+\setlength{\evensidemargin}{0pt}%%
+\setlength{\parindent}{3.5ex}%%
+\setlength{\parskip}{0pt}%%
+\newcommand{\matlab}[1]{\texttt{#1}}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{mcom}{rgb}{0,1,0}
+\definecolor{light-blue}{rgb}{0.8,0.85,1}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{lightgray}{gray}{0.93}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{myred}{rgb}{0.7,0.2,0.1}
+\definecolor{myblue}{rgb}{0.2,0.1,0.7}
+\lstset{ %
+	backgroundcolor=\color{lightgray},   % choose the background color
+	basicstyle=\ttfamily,        % size of fonts used for the code
+	columns=fullflexible,
+	breaklines=true,                 % automatic line breaking only at whitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	tabsize=4,
+	commentstyle=\color{mygreen},    % comment style
+	escapeinside={(*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue},       % keyword style
+	stringstyle=\color{mymauve}\ttfamily,     % string literal style
+	%frame=single,
+	rulesepcolor=\color{red!20!green!20!blue!20},
+	%identifierstyle=\color{red},
+	language=Matlab,
+	morekeywords={},
+}
+
+
+\newcommand{\Dcal}{\mathcal{D}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\Ebb}{\mathbb{E}}
+
+\newcommand{\bite}{\begin{itemize}}
+\newcommand{\eite}{\end{itemize}}
+
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\benu}{\begin{enumerate}}
+\newcommand{\eenu}{\end{enumerate}}
+
+\newcommand{\st}{\text{s.t.}}
+
+\newcommand{\ue}{\mathrm{e}}
+
+\title{Machine Learning, Spring 2019\\Homework 5}
+\date{Due on 23:59 May 7, 2019}
+
+\begin{document}
+\maketitle
+
+\noindent
+\rule{\linewidth}{0.4pt}
+\begin{enumerate}
+    \item Submit your solutions to Gradescope (www.gradescope.com).
+    Homework of this week contains two part, \textbf{theoretical part} and \textbf{programming part}. So there are two assignments in gradescope, the assignment titled with programming part will require you to submit your code while the results of programming part should be put in theoretical part.
+    \item \textbf{Make sure each solution page is assigned to the corresponding problems }when you submit your homework.
+    \item
+    Any programming language is allowed for your code, but \textbf{make sure it is clear and readable with necesary comments.}
+\end{enumerate}
+
+  \noindent
+\rule{\linewidth}{0.4pt}
+
+\section{Bias-variance Decomposition}
+When there is noise in the data, $E_{\text {out}}\left(g^{(\mathcal{D})}\right)=\mathbb{E}_{\mathbf{x}, y}\left[\left(g^{(\mathcal{D})}(\mathbf{x})-y(\mathbf{x})\right)^{2}\right]$, where $y(\mathbf{x})=f(\mathbf{x})+\epsilon$. If $\epsilon$ is a zero mean noise random variable with variance $\sigma^2$, show that the bias variance decomposition becomes
+$$
+\mathbb{E}_{\mathcal{D}}\left[E_{\text { out }}\left(g^{(\mathcal{D})}\right)\right]=\sigma^{2}+\text{bias}+\text{var}
+$$
+\textcolor{red}{(15 points)}
+
+\section{VC Dimension}
+The VC dimension depends on the input space as well as $\mathcal{H}$. For a fixed $\mathcal{H}$, consider two input spaces $\mathcal{X}_1 \subseteq \mathcal{X}_2$. Show that the VC dimension of $\mathcal{H}$ with respect to input space  $\mathcal{X}_1$ is at most the VC dimension of $\mathcal{H}$ with respect to input space $\mathcal{X}_2$.
+\textcolor{red}{(15 points)}
+
+\section{Comparing the VC-bounds}
+There are a number of bounds on the generalization error $\epsilon$, all holding with probability at least $1-\delta$.
+\begin{enumerate}[(a)]
+    \item Original VC-bound:
+    \[
+    \epsilon \leq \sqrt { \frac { 8 } { N } \ln \frac { 4 m _{\mathcal { H }} ( 2 N ) } { \delta } }\,.
+    \]
+    \item Rademancher Penalty Bound:
+    \[
+    \epsilon \leq \sqrt { \frac { 2 \ln ( 2 N m_{\mathcal { H }} ( N ) ) } { N } } + \sqrt { \frac { 2 } { N } \ln \frac { 1 } { \delta } } + \frac { 1 } { N }\,.
+    \]
+    \item Parrondo and Van den Broek:
+\[
+\epsilon \leq \sqrt { \frac { 1 } { N } \left( 2 \epsilon + \ln \frac { 6 m_{\mathcal { H }} \left( 2N\right) } { \delta } \right) }\,.
+\]
+\item Devroye:
+\[
+\epsilon \leq \sqrt { \frac { 1 } { 2 N } \left( 4 \epsilon ( 1 + \epsilon ) + \ln \frac { 4 m_{\mathcal { H }} \left( N ^ { 2 } \right) } { \delta } \right) }\,.
+\]
+Note that (c) and (d) are implicit bounds in $\epsilon$, therefore you are required to write out the explicit expressions. Fix $d_{VC} = 50$ and $\delta =0.05$ and plot these bounds as a function of $N$. (Upper bound for $m_{\mathcal{H}}$ is needed as well.) Which is the best? Give your observations. \\
+\textcolor{red}{(20 points)}
+\end{enumerate}
+
+\section{Ridge regression}
+ Ridge regression has two versions.  One is the regularized version:
+ \beq\label{ridge.1}
+ \min_\theta\quad  \frac{1}{2}\| \by- \Phi \theta\|^2_2 + \frac{\mu}{2}\|\theta\|^2_2,\eeq
+ and the other is constrained version
+ \beq\label{ridge.2}
+ \begin{aligned}
+ \min_\theta & \quad \frac{1}{2} \| \by - \Phi \theta\|^2_2\\
+ \st & \quad \|\theta\|_2^2 \le C,
+ \end{aligned}
+ \eeq
+ with $C\ge 0$ and $\mu\ge 0$ are given parameters. \\
+
+ Hint: You can assume the optimal Lagrange multiplier $\lambda$ is known. But you have to give the equation to determine $\lambda$.\\
+
+
+Questions:
+
+\benu
+\item For any given $\mu\in[0,+\infty)$, find the optimal solution $\theta^{R1}$ to \eqref{ridge.1}. \textcolor{red}{(5 points)}
+\item Find the optimal solution $\theta^{R2}$ to \eqref{ridge.2} for  any given $C\in[0,+\infty)$. (We've done the part for $C\ge \|\theta^{LS}\|_2^2$ in class using KKT conditions, where $\theta^{LS}  = (\Phi^T\Phi)^{-1}\Phi^T\by$ be the LS solution.) \textcolor{red}{(5 points)}
+\item For given $\mu\in[0,+\infty)$, you have the optimal solution $\theta^{R1}$ to \eqref{ridge.1}.  Now find the value of $C$, so that the optimal solution $\theta^{R2}$ to \eqref{ridge.2} is equivalent to $\theta^{R1}$, i.e.,
+$\theta^{R2} = \theta^{R1}$. \textcolor{red}{(5 points)}
+\item For given $C\in[0,+\infty)$, you have the optimal solution $\theta^{R2}$ to \eqref{ridge.2}.  Now Find the $\mu$ value, so that \eqref{ridge.1} yields the same solution as \eqref{ridge.2}, i.e., $\theta^{R1} = \theta^{R2}$.\textcolor{red}{(5 points)}
+\eenu
+
+\section{Nonlinear Transformation}
+
+A consumer price index (CPI) measures changes in the price level of a market basket of consumer goods and services purchased by households. The annual percentage change in a CPI is used as a measure of inflation. A CPI can be used to index (i.e., adjust for the effect of inflation) the real value of wages, salaries, pensions, for regulating prices and for deflating monetary magnitudes to show changes in real values.  Generally,  a CPI $\ge 3\% $ implies inflation, and a CPI $\ge 5\%$ indicates serious inflation.   For a single item, the CPI is calculated
+by
+\[  \frac{CPI_2}{CPI_1} = \frac{Price_2}{Price_2} \]
+where $1$ means the comparison time period and $CPI_1$ is usually considered as an index of $100\%$.  For multiple items, the overall
+CPI is given by
+\[ CPI = \frac{\sum_{i=1}^n CPI_i \times weight_i}{\sum_{i=1}^n weight_i} \]
+where the $weight_i$s do not necessarily sum up to 1 or 100.
+
+
+You are given the following data sets Table~\ref{tab.1} and \ref{tab.2} about the monthly CPI of China\footnote{http://www.inflation.eu}.
+\begin{table}[H]
+\centering
+\caption{Monthly CPI of China, 2015.  Increase as prior month}
+\label{tab.1}
+\begin{tabular}{l|r} \hline
+Time  & CPI \\ \hline
+January 2015 - December 2014  & $0.26\%$  \\
+February 2015 - January 2015    & $1.23\%$  \\
+March 2015 - February 2015       & $-0.52\%$   \\
+April 2015 - March 2015              & $-0.26\% $\\
+May 2015 - April 2015 &           $ -0.17\%$ \\
+June 2015 - May 2015 & $0.00\%$ \\
+July 2015 - June 2015 & $0.35\%$ \\
+August 2015 - July 2015 & $0.52\%$\\
+September 2015 - August 2015  & $0.09\%$\\
+October 2015 - September 2015 & $-0.35\%$\\
+November 2015 - October 2015 & $0.00\%$  \\
+December 2015 - November 2015 & $0.52\%$ \\ \hline
+ \end{tabular}
+ \end{table}
+
+\begin{table}[H]
+\centering
+\caption{Monthly CPI of China, 2015.  Increase as prior month}
+\label{tab.2}
+\begin{tabular}{l|r} \hline
+Time  & CPI \\ \hline
+January 2015 - January 2014	& $0.74\%$\\
+February 2015 - February 2014	& $1.41\%$\\
+March 2015 - March 2014	& $1.45\%$\\
+April 2015 - April 2014	& $1.49\%$\\
+May 2015 - May 2014	& $1.21\%$\\
+June 2015 - June 2014	& $1.31\%$\\
+July 2015 - July 2014	& $1.68\%$\\
+August 2015 - August 2014 & $2.04\%$\\
+September 2015 - September 2014 & $1.58\%$\\
+October 2015 - October 2014 & $1.23\%$\\
+November 2015 - November 2014 & $1.50\%$\\
+December 2015 - December 2014 &1.67\% \\ \hline
+ \end{tabular}
+\end{table}
+
+ {\bf Questions:} (you can choose \underline{\bf either one} of the two tables above to do following homework):
+ \begin{enumerate}
+ \item Choose a regression model (e.g. linear regression, quadratic regression, cubic regression, or other nonlinear transformation you would
+ like to use), write down your model.  For example, if you choose linear model, it would be written as
+ \[ CPI = \theta_0 + \theta_1 \times Time \]
+ where $\theta_0$ and $\theta_1$ are your parameters. \textcolor{red}{(5 points)}
+ \item Implement your regression in any programming language to determine your parameters, write down the values you find. \textcolor{red}{(10 points)}
+ \item Using LOOCV to calculate the cross-validation MSE and plot the 12 curves you obtain, (like I did in the class). \textcolor{red}{(10 points)}
+ \item Predict the CPI values for the next two time period, i.e., January 2016 and February 2016. \textcolor{red}{(5 points)}
+ \end{enumerate}
+
+
+
+\end{document}

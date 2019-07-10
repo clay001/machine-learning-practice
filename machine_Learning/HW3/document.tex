@@ -1,0 +1,228 @@
+%!TEX program = pdflatex
+\documentclass[11pt, a4paper]{article}
+\usepackage{amsmath,graphicx}
+\usepackage{cite}
+\usepackage{amsthm,amssymb,amsfonts}
+\usepackage{textcomp}
+\usepackage{bm}
+\usepackage{algorithm}    
+\usepackage{algorithmic}
+\usepackage{booktabs}
+\usepackage{enumerate}
+\usepackage{extarrows}
+\usepackage[colorlinks]{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+\setlength{\textwidth}{6.3in}%%
+\setlength{\textheight}{9.8in}%%
+\setlength{\topmargin}{0pt}%%
+\setlength{\headsep}{-0.5in}%%
+\setlength{\headheight}{0pt}%%
+\setlength{\oddsidemargin}{0pt}%%
+\setlength{\evensidemargin}{0pt}%%
+\setlength{\parindent}{3.5ex}%%
+\setlength{\parskip}{0pt}%%
+
+
+\definecolor{mcom}{rgb}{0,1,0}
+\definecolor{light-blue}{rgb}{0.8,0.85,1}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{lightgray}{gray}{0.93}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{myred}{rgb}{0.7,0.2,0.1}
+\definecolor{myblue}{rgb}{0.2,0.1,0.7}
+\lstset{ %
+	backgroundcolor=\color{lightgray},   % choose the background color
+	basicstyle=\ttfamily,        % size of fonts used for the code
+	columns=fullflexible,
+	breaklines=true,                 % automatic line breaking only at whitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	tabsize=4,
+	commentstyle=\color{mygreen},    % comment style
+	escapeinside={(*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue},       % keyword style
+	stringstyle=\color{mymauve}\ttfamily,     % string literal style
+	%frame=single,
+	rulesepcolor=\color{red!20!green!20!blue!20},
+	%identifierstyle=\color{red},
+	language=Matlab,
+	morekeywords={},
+}
+
+\begin{document}
+
+\title{\textbf{Machine Learning, Spring 2019}\\Homework 3}
+\date{Due on \textbf{April 7, 11:59 PM}}
+\author{}
+\maketitle
+
+  \noindent
+\rule{\linewidth}{0.4pt}
+\begin{enumerate}
+    \item Submit your solutions to Gradescope (www.gradescope.com).
+    Homework of this week contains two part, \textbf{theoretical part} and \textbf{programming part}. So there are two assignments in gradescope, the assignment titled with programming part will require you to submit your code.
+    \item \textbf{Make sure each solution page is assigned to the corresponding problems }when you submit your homework. 
+    \item 
+    Any programming language is allowed for your code, but \textbf{make sure it is clear and readable with necesary comments.}
+\end{enumerate}
+
+  \noindent
+\rule{\linewidth}{0.4pt}
+
+\section{Subdifferential}
+For the following functions, verify whether the function is subdifferentiable everywhere, if it is, calculate a subgradient at a given $x$, if not, give your proof.
+\begin{enumerate}[(a)]
+\item $f(x) = \max_{i=1,...,m} |a_i^Tx + b_i|$.\textcolor{red}{(5 points)}
+
+\item $f(x) = x_{[1]} + \cdots + x_{[k]}$, where $x_{[i]}$ is the $i$th largest element of $x \in \mathbb{R}^n$.\textcolor{red}{(5 points)}
+
+\item $f:\mathbb{R} \to \mathbb{R}$ with $\text{dom} \ f = \mathbb{R}_+$:\textcolor{red}{(5 points)}
+\[ f(x) = \begin{cases}  1 & x=0,\\
+0 & x>0.
+\end{cases}
+\] 
+\end{enumerate}
+
+\section{Backtracking line search}
+
+Consider the following optimization problem:
+\begin{align}
+\underset{x\in \mathbb{R}^n}{\operatorname{minimize}}~f(x),\label{prob}
+\end{align}
+where $f:\mathbb{R}^n\rightarrow \mathbb{R}$ is a convex and differentiable function, and its gradient is Lipschitz continuous, i.e., there exists $L>0$ such that
+\begin{align*}
+\|\nabla f(x)-\nabla f(y)\|_2\le L\|x-y\|_2, \quad \forall x,y\in \mathbb{R}^n.
+\end{align*}
+The gradient descent method for solving problem (1) updates as
+\begin{equation}
+x_{k+1} = x_k - \alpha_k\nabla f(x_k)\,.\label{eq:graddescent}
+\end{equation}
+Here we apply backtracking line search to determine the stepsize $\alpha_k$ in (2). The gradient descent method using backtracking line search updates according to: 
+
+\begin{itemize}
+	\item Initialization: Fix parameter $\gamma\in(0,1)$.
+	\item At the $k$th iteration:
+	\begin{itemize}
+		\item Starts with $\alpha_k=1$.
+		\item If 
+		\begin{align*}
+		f(x_k-\alpha_k\nabla f(x_k)) > f(x_k) - \frac{\alpha_k}{2}\|\nabla f(x_k)\|_2^2\,,
+		\end{align*}
+		update $\alpha_k = \gamma\alpha_k$ and repeat this sub-step. Otherwise, $k=k+1$.
+	\end{itemize}
+\end{itemize}
+
+
+\begin{enumerate}[(a)]
+	\item Show that $\|\nabla f(x_k)\|_2\rightarrow 0$ when $k\rightarrow \infty$.\textcolor{red}{(10 points)}\\[1em]
+	\fbox{%
+		\parbox{\textwidth}{%
+			Hint: The proof can be taken in three steps and we give the hint of the first two steps
+			\begin{itemize}
+				\item Step 1: find a lower bound of step size such that $\underline{\alpha}\le \alpha_k$ for each $k$.
+				\item Step 2: find a upper bound of $f(x_k)- f(x_{k+1})$ in terms of $\|\nabla f(x_k)\|_2\,.$
+				\item Step 3: (No hint).
+			\end{itemize}
+		}%
+	}
+	\item Instead of using the negative gradient as the descent direction, we consider a more general direction $d_k$, where $\|d_k\|=\|\nabla f(x_k)\|$ and the angle between $d_k$ and $-\nabla f(x_k)$ satisfies $0^{\circ}\le \angle(d_k, -\nabla f(x_k))\le \theta<90^{\circ}$ for some $\theta$. The new update follows
+	\begin{align}
+		x_{k+1}  = x_k+\alpha_kd_k.\label{eq:update}
+	\end{align}
+	Here we also consider using backtracking line search to determine the stepsize $\alpha_k$. At the $k$th iteration, \eqref{eq:update} with backtracking line search check whether the following condition holds:
+	\begin{align}
+		f(x_k+\alpha_kd_k) > f(x_k)+\frac{\alpha_k}{2}\langle \nabla f(x_k), d_k\rangle\,.\label{eq:stepsizecondition}
+	\end{align}
+	The remaining part of the algorithm is the same as it for gradient descent. Show that $\|\nabla f(x_k)\|\rightarrow 0$ when $k\rightarrow \infty$.\textcolor{red}{(10 points)}
+\end{enumerate}
+
+\section{Stationary Points}
+
+\subsection{Finding Stationary Points}
+Find the stationary points for the following functions $f(x)$: \\
+(Hint: notice whether the domain of the function includes the stationary points you find.)
+
+\begin{enumerate}[(a)]
+\item $f(x) = (x-1)/(x^2+5x+3)$.\textcolor{red}{(3 points)}
+
+\item $f(x) = \ln(x^3-6x^2-15x+1)$.\textcolor{red}{(3 points)}
+
+\item $f(x) = 7+(2x^2-10x)\sqrt{x}$.\textcolor{red}{(3 points)}
+\end{enumerate}
+
+\subsection{Testing Stationary Points}
+You are given the function $f(x)$ and you have to find its stationary points. For each stationary point determine if it is a local maximum or local minimum(or neither) using the second derivative information.
+
+\begin{enumerate}[(a)]
+\item $f(x) = \ln(x)+1/x$.\textcolor{red}{(3 points)}
+
+\item $f(x) = 2x^3-3x^2-12x+5$.\textcolor{red}{(3 points)}
+
+\end{enumerate}
+
+\section{Convergence rates of Gradient Descent }
+We analysis the convergence rate from three possible cases, and suppose that:
+
+\[
+w_*\in \arg\min_w F(w)
+\]
+where $F$ is convex.  
+\begin{enumerate}[(a)]
+	\item The Smooth Case:\\
+	Suppose $F$ is $L $ smooth and we can obtain:
+	\[
+	F(w')\leq F(w)+ \nabla F(w)\cdot (w' -w)+\frac{L}{2}\Vert w -w'\Vert^2
+	\]
+	We consider the update rule :\\
+	\[
+	w_{t+1}=w_t-\eta\nabla F(w_t)
+    \]
+    Please try to show that the gradient descent converges at rate of $1/t$ in this case. ({Hint:} $\eta = 1/L $ and it equals to proof that $F(w_t) - F(w_*)< \frac{L}{t }\Vert w_0-w_*\Vert^2 $, where $w_*$ is a new point.)\textcolor{red}{(10 points)}
+    \item The Smooth and Strongly Convex Case:\\
+ A function $F$ is $\mu$ strongly convex if 
+ \[
+F(w')\geq F(w)+\nabla F(w)\cdot (w' -w)+\frac{ \mu}{2}\Vert w-w'\Vert^2
+\]
+Similarly, we suppose that :
+ \[
+	w_{t+1}=w_t-\eta\nabla F(w_t)
+    \]
+And we know the supporting lemma that:
+\[
+\Vert \nabla F(w)\Vert^2 \leq 2L(F(w) - F(w_*))
+\]
+Please try to show that the GD algorithm has a constant learning rate. (Hint: In $\frac{L}{\mu}log(\Vert w_0-w_*\Vert/\epsilon )$ iterations our distance to the optimal point is $\mathcal{O}(\epsilon) $, and try to proof that: $\Vert w_t - w_*\Vert \leq ( 1- \frac{\mu}{L })^t\Vert w_0-w_*\Vert $.\textcolor{red}{(10 points)}
+\item Non-smooth optimization and (sub-)gradient descent:\\
+We denote that the update rule is :
+\[
+w_{t+1}=w_t-\eta\nabla F(w_t)
+\]
+where $ \nabla F(w_t)$ is the sub-gradient at $ w_t$ and it satisfies:
+\[
+F(w')\geq F(w) + \nabla F(w)\cdot (w'-w)
+\]
+Suppose that for all $w$ we have that $\Vert \nabla F(w)\Vert\leq B$ and $\Vert w_0-w_*\Vert\leq R $.  Set $\eta=\frac{R}{B}\sqrt{\frac{2}{T} } $, then please show that \textcolor{red}{(10 points)}
+\[
+F(\frac{1}{T}\sum_t w_t)-F(w_*)\leq \frac{RB}{\sqrt{T}}
+\]
+
+\end{enumerate}
+
+
+\section{Programming Problem}
+\begin{enumerate}[(a)]
+\item Given the following basic least squares formulation,
+\begin{equation} 
+	\min\quad f(x)=\|Ax-b\|_{2}^{2}
+\end{equation}
+where, $A \in \mathbb{R}^{80 \times 3}, x \in \mathbb{R}^{3}, b \in \mathbb{R}^{80}$. Please implement the gradient descent method using the given data set (\textbf{A.txt} and \textbf{b.txt}) and plot the iteration process.\textcolor{red}{(5 points)}  
+\item Let's look deeper into above problem and use the optimal value of $x$ you get (approximate value is fine). Generate matrix $A,b$ by yourself to make the Hessian matrix have different condition number, verify the relation between convergence rate and condition number and plot your results.\textcolor{red}{(5 points)}
+\item Given the following function, please compare the performance of different stepsize/learning rate iteration methods (at least two) and plot your results.\textcolor{red}{(10 points)}
+$$ 
+f(x, y)=(1-x)^{2}+100\left(y-x^{2}\right)^{2}
+$$
+\end{enumerate}
+\end{document}
